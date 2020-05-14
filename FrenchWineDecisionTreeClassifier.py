@@ -1,10 +1,9 @@
 #coding:gbk
 """
-ÀûÓÃ¾ö²ßÊ÷Ëã·¨½øĞĞ·ÖÀà
-×÷Õß£ºÖ£ÁÖÌÎ
-ÈÕÆÚ£º2020.5.8
+åˆ©ç”¨å†³ç­–æ ‘ç®—æ³•è¿›è¡Œåˆ†ç±»
+ä½œè€…ï¼šç‹ç¿¼å±•
 """
- # µ÷ÈëĞèÒªÓÃµÄ¿â
+ # è°ƒå…¥éœ€è¦ç”¨çš„åº“
 import pandas as pd          
 import numpy as np
 import matplotlib.pyplot as plt
@@ -12,19 +11,19 @@ import matplotlib.cm as cm
 import seaborn as sb
 #%matplotlib inline
 
-# µ÷ÈëÊı¾İ
+# è°ƒå…¥æ•°æ®
 df = pd.read_csv('frenchwine.csv')
 df.columns = ['species', 'magnesium','ash','alcalinity_ash','alcohol', 'mailc_acid'  ]
 
-# ²é¿´Ç°5ÌõÊı¾İ
+# æŸ¥çœ‹å‰5æ¡æ•°æ®
 df.head()
 print(df.head()) 
 
-# ²é¿´Êı¾İÃèÊöĞÔÍ³¼ÆĞÅÏ¢
+# æŸ¥çœ‹æ•°æ®æè¿°æ€§ç»Ÿè®¡ä¿¡æ¯
 df.describe()
 print(df.describe())
 
-#Êı¾İµÄ¿ÉÊÓ»¯ 
+#æ•°æ®çš„å¯è§†åŒ– 
 def scatter_plot_by_category(feat, x, y): 
     alpha = 0.5
     gs = df.groupby(feat)
@@ -40,7 +39,7 @@ plt.ylabel('alcohol')
 plt.title('species')
 plt.show()
 
-#ÀûÓÃseaborn¿â»æÖÆÈıÖÖIris»¨²»Í¬²ÎÊıÍ¼
+#åˆ©ç”¨seabornåº“ç»˜åˆ¶ä¸‰ç§IrisèŠ±ä¸åŒå‚æ•°å›¾
 plt.figure(figsize=(20, 10)) 
 for column_index, column in enumerate(df.columns):
     if column == 'species':
@@ -49,8 +48,8 @@ for column_index, column in enumerate(df.columns):
     sb.violinplot(x='species', y=column, data=df)
 plt.show()
 
-# Ê×ÏÈ¶ÔÊı¾İ½øĞĞÇĞ·Ö£¬¼´»®·Ö³öÑµÁ·¼¯ºÍ²âÊÔ¼¯
-from sklearn.cross_validation import train_test_split #µ÷Èësklearn¿âÖĞ½»²æ¼ìÑé£¬»®·ÖÑµÁ·¼¯ºÍ²âÊÔ¼¯
+# é¦–å…ˆå¯¹æ•°æ®è¿›è¡Œåˆ‡åˆ†ï¼Œå³åˆ’åˆ†å‡ºè®­ç»ƒé›†å’Œæµ‹è¯•é›†
+from sklearn.cross_validation import train_test_split #è°ƒå…¥sklearnåº“ä¸­äº¤å‰æ£€éªŒï¼Œåˆ’åˆ†è®­ç»ƒé›†å’Œæµ‹è¯•é›†
 all_inputs = df[['alcohol', 'mailc_acid',
                              'ash', 'alcalinity_ash','magnesium']].values
 all_species = df['species'].values
@@ -58,34 +57,34 @@ all_species = df['species'].values
 (X_train,
  X_test,
  Y_train,
- Y_test) = train_test_split(all_inputs, all_species, train_size=0.8, random_state=1)#80%µÄÊı¾İÑ¡ÎªÑµÁ·¼¯
+ Y_test) = train_test_split(all_inputs, all_species, train_size=0.8, random_state=1)#80%çš„æ•°æ®é€‰ä¸ºè®­ç»ƒé›†
 
-# Ê¹ÓÃ¾ö²ßÊ÷Ëã·¨½øĞĞÑµÁ·
-from sklearn.tree import DecisionTreeClassifier #µ÷Èësklearn¿âÖĞµÄDecisionTreeClassifierÀ´¹¹½¨¾ö²ßÊ÷
+# ä½¿ç”¨å†³ç­–æ ‘ç®—æ³•è¿›è¡Œè®­ç»ƒ
+from sklearn.tree import DecisionTreeClassifier #è°ƒå…¥sklearnåº“ä¸­çš„DecisionTreeClassifieræ¥æ„å»ºå†³ç­–æ ‘
 
-# ¶¨ÒåÒ»¸ö¾ö²ßÊ÷¶ÔÏó
+# å®šä¹‰ä¸€ä¸ªå†³ç­–æ ‘å¯¹è±¡
 decision_tree_classifier = DecisionTreeClassifier()
 
-# ÑµÁ·Ä£ĞÍ
+# è®­ç»ƒæ¨¡å‹
 model = decision_tree_classifier.fit(X_train, Y_train)
-# Êä³öÄ£ĞÍµÄ×¼È·¶È
+# è¾“å‡ºæ¨¡å‹çš„å‡†ç¡®åº¦
 print(decision_tree_classifier.score(X_test, Y_test)) 
 
-# Ê¹ÓÃÑµÁ·µÄÄ£ĞÍ½øĞĞÔ¤²â
+# ä½¿ç”¨è®­ç»ƒçš„æ¨¡å‹è¿›è¡Œé¢„æµ‹
 print(X_test[0:3])
 model.predict(X_test[0:3])
 
-# ¶Ô½á¹ûÓÃÖĞÎÄ±íÊ¾
+# å¯¹ç»“æœç”¨ä¸­æ–‡è¡¨ç¤º
 def a():
 	result = []
 	for i in model.predict(X_test[0:3]):
 		if i == 'Zinfandel':
-			result.append('·ÛÏÉ÷ì')
+			result.append('ç²‰ä»™é»›')
 		elif i == 'Syrah':
-			result.append('Î÷À­')
+			result.append('è¥¿æ‹‰')
 		elif i == 'Sauvignon':
-			result.append('³àÏ¼Öé')
+			result.append('èµ¤éœç ')
 	return result
 
-# print(model.predict(X_test[0:3]))#Êä³ö²âÊÔµÄ½á¹û£¬¼´Êä³öÄ£ĞÍÔ¤²âµÄ½á¹û
+# print(model.predict(X_test[0:3]))#è¾“å‡ºæµ‹è¯•çš„ç»“æœï¼Œå³è¾“å‡ºæ¨¡å‹é¢„æµ‹çš„ç»“æœ
 print(a())
